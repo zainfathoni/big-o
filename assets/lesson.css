@@ -1,0 +1,53 @@
+/* Shared lesson stylesheet for the big-o teach workspace.
+   Factored from the /teach canonical lesson baseline (lesson-template.html).
+   Must keep working over file:// and plain static hosting — no build step. */
+:root { --ink:#1a1a1a; --muted:#6b6b6b; --rule:#e0ddd6; --accent:#2e5c7a;
+        --add:#2e7d32; --del:#b23b3b; --warn:#9a7d1f; }
+body { font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+       max-width:42rem; margin:3rem auto; padding:0 1.5rem; color:var(--ink);
+       line-height:1.58; background:#fbfaf7; }
+h1 { font-size:1.9rem; line-height:1.15; margin-bottom:.2rem; }
+.sub { color:var(--muted); font-style:italic; margin-top:0; }
+h2 { font-size:1.15rem; margin-top:2.2rem; border-bottom:1px solid var(--rule);
+     padding-bottom:.25rem; }
+h3 { font-size:1rem; margin-top:1.5rem; color:var(--accent); }
+code { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.84em;
+       background:#eef1f4; padding:.1em .3em; border-radius:3px; }
+figure { margin:1.2rem 0; }
+figcaption { font-size:.86rem; color:var(--muted); margin-bottom:.35rem; }
+pre { background:#f4f6f8; border-left:3px solid var(--accent); padding:.9rem 1rem;
+      overflow-x:auto; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.79rem;
+      line-height:1.45; }
+blockquote { border-left:3px solid var(--warn); margin:1.2rem 0; padding:.3rem 1rem;
+             color:#3a3a3a; background:#faf6ea; }
+table { border-collapse:collapse; width:100%; font-size:.82rem; margin:1rem 0; }
+th,td { border:1px solid var(--rule); padding:.45rem .55rem; text-align:left; vertical-align:top; }
+th { background:#eef1f4; }
+.defense { background:#1a1a1a; color:#f4f1e8; padding:1rem 1.2rem; border-radius:6px;
+           margin:1.4rem 0; }
+.defense b { color:#e8c98a; }
+/* REQUIRED: re-assert code color inside the dark box so it isn't light-on-light */
+.defense code { background:#3a3f44; color:#f4f1e8; }
+a { color:var(--accent); }
+.add { color:var(--add); } .del { color:var(--del); }
+.foot { margin-top:2.5rem; border-top:1px solid var(--rule); padding-top:1rem;
+        font-size:.85rem; color:var(--muted); }
+.ask { background:#eef4f7; border:1px solid #cfe0e8; border-radius:6px;
+       padding:.7rem 1rem; font-size:.9rem; }
+.listen { background:#fff7df; border:1px solid #eadca8; border-radius:6px;
+          padding:.7rem 1rem; font-size:.9rem; }
+.quiz { background:#f0f7f0; border:1px solid #cfe0cf; border-radius:6px;
+        padding:.7rem 1rem; margin:1.2rem 0; }
+.quiz ol { padding-left:1.2rem; }
+.skip { position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.skip:focus { left:1rem; top:1rem; width:auto; height:auto; padding:.5rem .7rem;
+              background:#fff; border:2px solid var(--accent); border-radius:4px; z-index:1; }
+.vsc { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.72rem;
+       text-decoration:none; background:#eef1f4; border:1px solid #cfe0e8;
+       border-radius:4px; padding:.08em .45em; white-space:nowrap; color:var(--accent); }
+.vsc:hover { background:#dbe7ef; }
+.gh { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.7rem;
+      text-decoration:none; background:#1a1a1a; color:#f4f1e8;
+      border-radius:4px; padding:.08em .4em; white-space:nowrap; }
+.gh:hover { background:#333; }
+.srcline { margin:.35rem 0 0; font-size:.78rem; color:var(--muted); }

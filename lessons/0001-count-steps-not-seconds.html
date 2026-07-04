@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 1 — Count Steps, Not Seconds</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+<a class="skip" href="#lesson-main">Skip to lesson content</a>
+<main id="lesson-main">
+
+<h1>Count steps, not seconds</h1>
+<p class="sub">Lesson 1 · Big-O for the BUILD Camp room · one win: predict an algorithm's future without running it</p>
+
+<p>A stopwatch tells you how fast code ran <em>today</em>, on <em>this</em> laptop, with <em>this</em> input. It tells you nothing about next month, when the input is a thousand times bigger. Big-O is the tool that answers the question the stopwatch can't: <strong>how does the cost grow as the input grows?</strong></p>
+
+<h2>A courier's bad day</h2>
+
+<p>From the source lecture: a Ninja Xpress courier must visit several addresses and return to the warehouse by the shortest route. With <strong>5 addresses</strong> there are 4! = <strong>24 possible routes</strong> — you could check them all by hand. With <strong>20 addresses</strong> there are 19! ≈ <strong>1.22 × 10<sup>17</sup> routes</strong>. Same problem, slightly bigger input, and suddenly no computer on Earth checks them all.</p>
+
+<blockquote>“But my code runs fine!” — It runs fine <em>at today's n</em>. The courier's route-checker also ran fine at n = 5. Growth, not current speed, is what kills systems.</blockquote>
+
+<h2>Why not just measure seconds?</h2>
+
+<p>The lecture gives two reasons real time is the wrong yardstick (slide 16): different machines execute the same operation at different speeds, and different compilers generate different machine code. A measurement in seconds describes your hardware as much as your algorithm.</p>
+
+<p>So instead we count <strong>steps</strong>: how many times the algorithm performs its <em>typical operation</em> (operasi khas), as a function of the input size <code>n</code>. That count is the <strong>time complexity T(n)</strong> — and it's the same on every machine.</p>
+
+<h2>Counting T(n) by hand</h2>
+
+<figure>
+  <figcaption>Averaging an array of n numbers (pseudocode from slide 22).</figcaption>
+  <p class="listen"><b>Listen first:</b> the algorithm sets <code>sum</code> to zero, then loops <code>i</code> from one to n, adding the i-th array element into <code>sum</code> each time. After the loop it divides <code>sum</code> by n to get the average. The typical operation is the addition inside the loop, and the loop body runs exactly n times.</p>
+  <pre aria-hidden="true">sum ← 0
+for i ← 1 to n do
+  sum ← sum + a[i]
+endfor
+average ← sum / n</pre>
+</figure>
+
+<p>The typical operation — adding an element into <code>sum</code> — runs exactly <strong>n</strong> times. So <strong>T(n) = n</strong>. That's the whole technique: pick the operation that characterizes the algorithm, count how many times it runs in terms of n.</p>
+
+<figure>
+  <figcaption>Finding the largest element (pseudocode from slide 23).</figcaption>
+  <p class="listen"><b>Listen first:</b> the algorithm starts by assuming the first element is the maximum, then loops <code>i</code> from two to n. Each pass compares the i-th element against the current maximum, and replaces the maximum if the element is bigger. The typical operation is the comparison, which happens once per loop pass — n minus one times.</p>
+  <pre aria-hidden="true">max ← a[1]
+for i ← 2 to n do
+  if a[i] > max then
+    max ← a[i]
+  endif
+endfor</pre>
+</figure>
+
+<p>Here the comparison runs <strong>n − 1</strong> times, so <strong>T(n) = n − 1</strong>.</p>
+
+<h2>The simplification move</h2>
+
+<p>Is T(n) = n meaningfully different from T(n) = n − 1? For growth, no. When n is large, only the <strong>fastest-growing term</strong> matters, and its constant factor doesn't change the <em>shape</em> of the curve. So the rule (slide 31) is:</p>
+
+<ol>
+  <li>Keep only the term with the highest order.</li>
+  <li>Drop its constant coefficient.</li>
+</ol>
+
+<p>Examples from the lecture: <code>6n² + 100n + 300</code> → <strong>n²</strong>, <code>3n³ + 4n² + 300</code> → <strong>n³</strong>, and a constant like <code>5</code> → <strong>1</strong>. What remains is the algorithm's <em>asymptotic</em> complexity — Big-O when we state it as an upper bound. (Next lesson sharpens the difference between Θ, O, and Ω.)</p>
+
+<h2>The ladder of growth</h2>
+
+<p>Because so much gets thrown away, only a few distinct growth functions survive in practice. Slowest-growing (best) to fastest-growing (worst), from slide 32:</p>
+
+<table>
+  <caption class="sub">Common asymptotic growth functions, slowest to fastest.</caption>
+  <tr><th>Growth</th><th>Name</th><th>Feels like</th></tr>
+  <tr><td>1</td><td>constant</td><td>same cost at any size</td></tr>
+  <tr><td>log n</td><td>logarithmic</td><td>doubling n adds one step</td></tr>
+  <tr><td>n</td><td>linear</td><td>cost scales with the data</td></tr>
+  <tr><td>n log n</td><td>linearithmic</td><td>good sorting lives here</td></tr>
+  <tr><td>n²</td><td>quadratic</td><td>nested loops over the data</td></tr>
+  <tr><td>2<sup>n</sup></td><td>exponential</td><td>each extra item doubles the work</td></tr>
+  <tr><td>n!</td><td>factorial</td><td>the courier's 19! routes</td></tr>
+</table>
+
+<div class="defense">
+<b>Cold-recall defense (one breath):</b><br>
+Big-O describes how an algorithm's cost <em>grows</em> with input size, not how fast it runs today. To find it: count the typical operation as <code>T(n)</code>, keep the fastest-growing term, drop its constant.
+</div>
+
+<h2>Check yourself</h2>
+
+<div class="quiz">
+<p><strong>Quiz — answer before scrolling on.</strong> (In the live session: shout your answers; wrong answers pick the next lesson.)</p>
+<ol>
+  <li>Measuring an algorithm by wall-clock seconds is unreliable because…<br>
+      A. slow algorithms can't be timed accurately<br>
+      B. results depend on the machine and compiler<br>
+      C. seconds can't be converted into steps</li>
+  <li>T(n) = 4n² + 20n + 500 simplifies to…<br>
+      A. n²<br>
+      B. 4n²<br>
+      C. n³</li>
+  <li>The courier problem explodes from 24 routes to ~1.22 × 10<sup>17</sup> because its growth is…<br>
+      A. quadratic — n²<br>
+      B. exponential — 2<sup>n</sup><br>
+      C. factorial — (n−1)!</li>
+</ol>
+</div>
+
+<h2>Read next</h2>
+<ul>
+  <li>Lesson 2 (to be built live): best, worst, and average case — then Θ vs O vs Ω →</li>
+  <li><a href="../RESOURCES.md">Workspace resources</a></li>
+</ul>
+
+<h2>Primary source</h2>
+<p><a href="https://zainf.dev/big-o">Kompleksitas Algoritma (Big-O)</a> — Zain Fathoni's 2020 guest lecture at Politeknik Negeri Jember (local copy: <a href="../assets/big-o-2020-jember-slides.pdf">assets/big-o-2020-jember-slides.pdf</a>, ~15-min read, Indonesian). For the notation itself, <a href="https://www.khanacademy.org/computing/computer-science/algorithms/asymptotic-notation/a/asymptotic-notation">Khan Academy's asymptotic notation series</a> (~20 min) is the deck's own reference.</p>
+
+<p class="ask">💬 I'm your teacher for this — ask me followups any time.</p>
+
+<p class="foot">Lesson 1 · workspace big-o · mission: prove fundamentals can be learned faster with AI — BUILD Camp, 4 July 2026</p>
+</main>
+</body>
+</html>
